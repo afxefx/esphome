@@ -13,7 +13,6 @@ class CWWWLightOutput : public light::LightOutput {
   void set_warm_white(output::FloatOutput *warm_white) { warm_white_ = warm_white; }
   void set_cold_white_temperature(float cold_white_temperature) { cold_white_temperature_ = cold_white_temperature; }
   void set_warm_white_temperature(float warm_white_temperature) { warm_white_temperature_ = warm_white_temperature; }
-  void set_constant_brightness(bool constant_brightness) { constant_brightness_ = constant_brightness; }
   light::LightTraits get_traits() override {
     auto traits = light::LightTraits();
     traits.set_supports_brightness(true);
@@ -26,7 +25,7 @@ class CWWWLightOutput : public light::LightOutput {
   }
   void write_state(light::LightState *state) override {
     float cwhite, wwhite;
-    state->current_values_as_cwww(&cwhite, &wwhite, this->constant_brightness_);
+    state->current_values_as_cwww(&cwhite, &wwhite);
     this->cold_white_->set_level(cwhite);
     this->warm_white_->set_level(wwhite);
   }
@@ -36,7 +35,6 @@ class CWWWLightOutput : public light::LightOutput {
   output::FloatOutput *warm_white_;
   float cold_white_temperature_;
   float warm_white_temperature_;
-  bool constant_brightness_;
 };
 
 }  // namespace cwww
